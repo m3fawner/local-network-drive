@@ -2,7 +2,7 @@ import instance from '../../src/ftp';
 
 export default function handler(req, res) {
   instance.connect({
-    user: process.env.USER,
+    user: process.env.USERNAME,
     password: process.env.PASSWORD,
     host: process.env.HOSTNAME,
   });

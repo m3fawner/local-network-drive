@@ -6,7 +6,7 @@ const upload = (req, res) => {
   try {
     form.parse(req, (err, fields, { files }) => {
       instance.connect({
-        user: process.env.USER,
+        user: process.env.USERNAME,
         password: process.env.PASSWORD,
         host: process.env.HOSTNAME,
       });
@@ -14,10 +14,8 @@ const upload = (req, res) => {
         instance.put(files.filepath, `${process.env.ROOT_DIR}/test/${files.originalFilename}`, (err) => {
           if (err) {
             console.error(err);
-            instance.end();
             throw err;
           }
-          instance.end();
         });
         res.status(200).json({});
       });
