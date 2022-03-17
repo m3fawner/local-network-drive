@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { createRef } from 'react';
-import { Button } from '@chakra-ui/react';
+import { Button, Container } from '@chakra-ui/react';
 import FileSelect from './FileSelect';
 
 const Uploader = () => {
@@ -17,10 +17,10 @@ const Uploader = () => {
     await axios.post('/api/upload', new FormData(formRef.current), config);
   };
   return (
-    <form ref={formRef} onSubmit={onSubmit}>
+    <Container as="form" ref={formRef} onSubmit={onSubmit}>
       <FileSelect label="Upload file" name="files" />
-      <Button type="submit">Submit</Button>
-    </form>
+      <Button mt={6} type="submit" colorScheme="brand" w="full">Submit</Button>
+    </Container>
   );
 };
 

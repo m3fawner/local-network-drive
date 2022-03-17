@@ -19,7 +19,7 @@ const FileSelect = ({ label, className, ...props }) => {
   return (
     <Flex w="100%" direction="column" wrap="wrap" align="center">
       <Flex
-        w="50%"
+        w="full"
         h="xs"
         border="1px"
         borderColor="gray.300"
@@ -35,7 +35,7 @@ const FileSelect = ({ label, className, ...props }) => {
         <Image src="/files.svg" alt="Drag files here" width="48" height="48" />
         <Box mt={4}>Drag files here</Box>
       </Flex>
-      <Box w="50%" mt={6}>
+      <Box w="full" mt={6}>
         <FormControl mb={2}>
           <FormLabel htmlFor="formFile">
             {label}
