@@ -1,6 +1,6 @@
 import instance from '../../src/ftp';
 
-export default async function handler(req, res) {
+const list = async (req, res) => {
   try {
     const data = await new Promise((resolve, reject) => {
       instance.connect({
@@ -24,4 +24,6 @@ export default async function handler(req, res) {
   } finally {
     instance.end();
   }
-}
+};
+
+export default list;
