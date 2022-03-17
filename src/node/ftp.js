@@ -37,3 +37,5 @@ export const produceErrorResponseFromError = (e) => ({
   ...e,
   message: ERROR_CODES[e.code],
 });
+
+export const disconnectAll = async () => Promise.all(connectedClients.keys().map(logout));
