@@ -9,19 +9,19 @@ const Uploader = () => {
     evt.preventDefault();
     const config = {
       headers: { 'content-type': 'multipart/form-data' },
-      onUploadProgress: (evt) => {
-        console.log(`Current progress:`, Math.round((evt.loaded * 100) / evt.total));
-      }
-    }
-    const response = await axios.post('/api/upload', new FormData(formRef.current), config);
-    console.log('response', response.data);
-  }
+      onUploadProgress: (progressEvt) => {
+        // eslint-disable-next-line no-console
+        console.log('Current progress:', Math.round((progressEvt.loaded * 100) / progressEvt.total));
+      },
+    };
+    await axios.post('/api/upload', new FormData(formRef.current), config);
+  };
   return (
-    <form ref={formRef} onSubmit={onSubmit} >
+    <form ref={formRef} onSubmit={onSubmit}>
       <FileSelect className="w-1/2" label="Upload file" name="files" />
       <Button type="submit">Submit</Button>
-    </form >
-  )
+    </form>
+  );
 };
 
 export default Uploader;

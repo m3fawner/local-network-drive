@@ -1,7 +1,10 @@
-import { Fragment, useRef, useState } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
+import { Fragment, useRef } from 'react';
+import PropTypes from 'prop-types';
+import { Dialog, Transition } from '@headlessui/react';
 
-export default function Modal({ isOpen, onClose, children, title }) {
+const Modal = ({
+  isOpen, onClose, children, title,
+}) => {
   const cancelButtonRef = useRef(null);
 
   return (
@@ -43,5 +46,18 @@ export default function Modal({ isOpen, onClose, children, title }) {
         </div>
       </Dialog>
     </Transition.Root>
-  )
-}
+  );
+};
+Modal.propTypes = {
+  isOpen: PropTypes.bool,
+  onClose: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
+  title: PropTypes.node,
+};
+Modal.defaultProps = {
+  isOpen: false,
+  // eslint-disable-next-line react/jsx-no-useless-fragment
+  title: <></>,
+};
+
+export default Modal;

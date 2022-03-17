@@ -7,11 +7,11 @@ const Home = () => {
 
   return (
     <>
-      <button onClick={() => setLoginOpen(true)}>Open</button>
+      <button type="button" onClick={() => setLoginOpen(true)}>Open</button>
       <Uploader />
       <Modal isOpen={loginOpen} onClose={() => setLoginOpen(false)} title="Modal title">Modal</Modal>
     </>
   );
-}
+};
 
 export default Home;

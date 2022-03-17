@@ -1,4 +1,4 @@
-import instance from '../../src/ftp';
+import instance from '../../src/node/ftp';
 
 const list = async (req, res) => {
   try {
@@ -9,11 +9,11 @@ const list = async (req, res) => {
         host: process.env.HOSTNAME,
       });
       instance.on('ready', () => {
-        instance.list(`${process.env.ROOT_DIR}/${req.query.dir}`, (err, list) => {
+        instance.list(`${process.env.ROOT_DIR}/${req.query.dir}`, (err, fileList) => {
           if (err) {
             reject(err);
           }
-          resolve(list);
+          resolve(fileList);
         });
       });
     });
