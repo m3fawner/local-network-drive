@@ -19,7 +19,7 @@ const login = async (req, res) => {
     });
   } catch (e) {
     console.error(e);
-    res.status(500).json(produceErrorResponseFromError(e));
+    res.status(e.code === 530 ? 401 : 500).json(produceErrorResponseFromError(e));
   }
 };
 

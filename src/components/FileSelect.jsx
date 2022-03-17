@@ -5,7 +5,7 @@ import {
   Box, Flex, FormControl, FormLabel, Input,
 } from '@chakra-ui/react';
 
-const FileSelect = ({ label, className, ...props }) => {
+const FileSelect = ({ label, ...props }) => {
   const inputRef = createRef();
   const preventTheThings = (evt) => {
     evt.preventDefault();
@@ -54,10 +54,6 @@ const FileSelect = ({ label, className, ...props }) => {
 };
 FileSelect.propTypes = {
   label: PropTypes.node.isRequired,
-  className: PropTypes.string,
-};
-FileSelect.defaultProps = {
-  className: '',
 };
 
 export default FileSelect;
