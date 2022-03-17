@@ -11,6 +11,7 @@ import {
   FormControl,
   FormLabel,
   Input,
+  useToast,
 } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import useFTP from '../hooks/useFTP';
@@ -19,6 +20,7 @@ const LoginModal = ({ isOpen, onLogin, onClose }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const { login } = useFTP();
+  const toast = useToast();
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -27,8 +29,23 @@ const LoginModal = ({ isOpen, onLogin, onClose }) => {
         <ModalCloseButton />
         <form onSubmit={async (evt) => {
           evt.preventDefault();
-          const { data: { token } } = await login(username, password);
-          onLogin(token);
+          try {
+            const { data: { token } } = await login(username, password);
+            onLogin(token);
+            toast({
+              title: 'Login succeeded',
+              status: 'success',
+              duration: 2000,
+            });
+          } catch (e) {
+            toast({
+              title: 'Login failed',
+              description: 'You may have gotten your password wrong, or do not have an account.',
+              status: 'error',
+              duration: 3000,
+              isClosable: true,
+            });
+          }
         }}
         >
           <ModalBody>
