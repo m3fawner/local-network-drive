@@ -8,6 +8,7 @@ const login = async (req, res) => {
     res.status(200).json({
       token,
     });
+    return;
   }
   try {
     const guid = uuid();
