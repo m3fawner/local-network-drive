@@ -27,7 +27,7 @@ module.exports = {
     'react/jsx-props-no-spreading': 'off',
   },
   overrides: [{
-    files: ['pages/api/**/*.js'],
+    files: ['pages/api/**/*.js', 'src/node/**/*.js'],
     env: {
       node: true,
     },

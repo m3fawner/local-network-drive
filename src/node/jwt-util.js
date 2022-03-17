@@ -1,0 +1,17 @@
+import jwt from 'jsonwebtoken';
+
+export const getTokenFromHeader = (req) => {
+  const [, ...parts] = (req.headers.Authorization ?? '').split(' ');
+  if (parts.length === 0) {
+    return null;
+  }
+  return parts.join(' ');
+};
+
+export const verifyToken = (token) => (token ? jwt.verify(token, process.env.SECRET_KEY) : null);
+
+export const decodeToken = verifyToken;
+
+export const generateToken = (guid) => jwt.sign({
+  guid,
+}, process.env.SECRET_KEY);
