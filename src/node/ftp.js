@@ -30,6 +30,7 @@ export const logout = async (guid) => {
 };
 
 const ERROR_CODES = {
+  421: 'Too many users are connected',
   530: 'Login incorrect',
 };
 
