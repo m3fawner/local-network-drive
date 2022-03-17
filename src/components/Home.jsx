@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import { Button } from '@chakra-ui/react';
 import useFTP, { TokenContext } from '../hooks/useFTP';
 import LoginModal from './LoginModal';
 import Uploader from './Uploader';
@@ -8,15 +9,16 @@ import Uploader from './Uploader';
 const LogoutButton = ({ onLogout }) => {
   const { logout } = useFTP();
   return (
-    <button
+    <Button
       type="button"
       onClick={async () => {
         await logout();
         onLogout();
       }}
+      colorScheme="red"
     >
       Logout
-    </button>
+    </Button>
   );
 };
 LogoutButton.propTypes = {
@@ -27,8 +29,8 @@ const Home = () => {
   const [token, setToken] = useState(null);
   return (
     <TokenContext.Provider value={token}>
-      <LogoutButton onLogout={() => setToken(null)} />
-      <button type="button" onClick={() => setLoginOpen(true)}>Login</button>
+      {token === null
+        ? <Button type="button" colorScheme="brand" onClick={() => setLoginOpen(true)}>Login</Button> : <LogoutButton onLogout={() => setToken(null)} />}
       <Uploader />
       <LoginModal
         isOpen={loginOpen}

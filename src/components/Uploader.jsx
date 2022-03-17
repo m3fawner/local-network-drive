@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { createRef } from 'react';
-import Button from './Button';
+import { Button } from '@chakra-ui/react';
 import FileSelect from './FileSelect';
 
 const Uploader = () => {
@@ -18,7 +18,7 @@ const Uploader = () => {
   };
   return (
     <form ref={formRef} onSubmit={onSubmit}>
-      <FileSelect className="w-1/2" label="Upload file" name="files" />
+      <FileSelect label="Upload file" name="files" />
       <Button type="submit">Submit</Button>
     </form>
   );
