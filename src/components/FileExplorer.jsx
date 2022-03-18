@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Spinner, Flex, Text,
+  Spinner, Flex, Text, Breadcrumb, BreadcrumbItem, BreadcrumbLink,
 } from '@chakra-ui/react';
 import Image from 'next/image';
 import useFTP from '../hooks/useFTP';
@@ -39,9 +39,23 @@ const FileExplorer = () => {
     loadFiles();
   }, [directory, list]);
 
+  const nestedDirectories = directory.split('/').slice(1);
   return isLoading ? <Spinner /> : (
-    <Flex wrap="wrap">
-      {files.map((file) => (<File key={file.name} {...file} selectDirectory={(dir) => setDirectory(`${directory}/${dir}`)} />))}
+    <Flex direction="column">
+      {nestedDirectories.length > 0 && (
+        <Breadcrumb>
+          <BreadcrumbItem><BreadcrumbLink onClick={() => setDirectory('')}>home</BreadcrumbLink></BreadcrumbItem>
+          {nestedDirectories.map((dir, i) => (
+            <BreadcrumbItem isCurrentPage={i === nestedDirectories.length - 1} key={dir} onClick={() => setDirectory(`/${nestedDirectories.slice(0, i + 1).join('/')}`)}>
+              <BreadcrumbLink>{dir}</BreadcrumbLink>
+            </BreadcrumbItem>
+          ))}
+        </Breadcrumb>
+      )}
+      <Flex wrap="wrap">
+        {files.map((file) => (<File key={file.name} {...file} selectDirectory={(dir) => setDirectory(`${directory}/${dir}`)} />))}
+      </Flex>
+
     </Flex>
   );
 };
