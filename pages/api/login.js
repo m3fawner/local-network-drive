@@ -3,6 +3,13 @@ import { login as ftpLogin, produceErrorResponseFromError } from '../../src/node
 import { verifyToken, getTokenFromHeader, generateToken } from '../../src/node/jwt-util';
 
 const login = async (req, res) => {
+  if (process.env.NODE_ENV === 'development') {
+    const guid = uuid();
+    res.status(200).json({
+      token: generateToken(guid),
+    });
+    return;
+  }
   const token = getTokenFromHeader(req);
   if (verifyToken(token)) {
     res.status(200).json({

@@ -1,7 +1,6 @@
 import Client from 'ftp';
 
 const connectedClients = new Map();
-export const getClient = (guid) => connectedClients.get(guid) ?? null;
 export const login = async (guid, user, password) => {
   const client = new Client();
   client.connect({
@@ -15,13 +14,15 @@ export const login = async (guid, user, password) => {
         reject(err);
       }
       connectedClients.set(guid, client);
-      resolve();
+      resolve(client);
     });
     client.on('error', reject);
   });
 };
+export const getClient = async (guid) => (process.env.NODE_ENV === 'development'
+  ? login('', process.env.FTP_USERNAME, process.env.PASSWORD) : connectedClients.get(guid) ?? null);
 export const logout = async (guid) => {
-  const client = getClient(guid);
+  const client = await getClient(guid);
   if (client) {
     client.end();
     return Promise.resolve();
