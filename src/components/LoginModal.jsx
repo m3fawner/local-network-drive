@@ -31,6 +31,7 @@ const LoginModal = ({ isOpen, onLogin, onClose }) => {
           evt.preventDefault();
           try {
             const { data: { token } } = await login(username, password);
+            sessionStorage.setItem('token', token);
             onLogin(token);
             toast({
               title: 'Login succeeded',

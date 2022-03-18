@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { createRef } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Box, Flex, FormControl, FormLabel, Input,
+  Box, Flex, FormControl, FormLabel, Input, Text,
 } from '@chakra-ui/react';
 
 const FileSelect = ({ label, ...props }) => {
@@ -33,7 +33,7 @@ const FileSelect = ({ label, ...props }) => {
         onDragLeave={preventTheThings}
       >
         <Image src="/files.svg" alt="Drag files here" width="48" height="48" />
-        <Box mt={4}>Drag files here</Box>
+        <Text mt={4}>Drag files here</Text>
       </Flex>
       <Box w="full" mt={6}>
         <FormControl mb={2}>

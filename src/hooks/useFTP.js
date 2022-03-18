@@ -1,9 +1,9 @@
 import {
-  useContext, useCallback, useMemo, createContext, useEffect,
+  useContext, useCallback, useMemo, createContext,
 } from 'react';
 import axios from 'axios';
 
-export const TokenContext = createContext(null);
+export const TokenContext = createContext(typeof window === 'undefined' ? null : sessionStorage.getItem('token'));
 const useFTP = () => {
   const token = useContext(TokenContext);
 
@@ -14,15 +14,13 @@ const useFTP = () => {
   const login = useCallback(async (user, password) => postWithAuthorization('/api/login', { user, password }), [postWithAuthorization]);
   const logout = useCallback(async () => getWithAuthorization('/api/logout'), [getWithAuthorization]);
   const upload = useCallback(async (body, config) => postWithAuthorization('/api/upload', body, config), [postWithAuthorization]);
-
-  useEffect(() => {
-    window.onunload = logout;
-  }, [logout]);
+  const list = useCallback(async (query) => getWithAuthorization('/api/list', { params: query }), [getWithAuthorization]);
 
   return useMemo(() => ({
     login,
     logout,
     upload,
+    list,
     // I know that all of these callbacks are dependent on the token, and the token alone
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }), [token]);
