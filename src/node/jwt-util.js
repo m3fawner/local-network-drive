@@ -1,6 +1,9 @@
 import jwt from 'jsonwebtoken';
 
 export const getTokenFromHeader = (req) => {
+  if (req.query.token) {
+    return req.query.token;
+  }
   const [, ...parts] = (req.headers['www-authorization'] ?? '').split(' ');
   if (parts.length === 0) {
     return null;

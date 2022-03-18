@@ -15,12 +15,19 @@ const useFTP = () => {
   const logout = useCallback(async () => getWithAuthorization('/api/logout'), [getWithAuthorization]);
   const upload = useCallback(async (body, config) => postWithAuthorization('/api/upload', body, config), [postWithAuthorization]);
   const list = useCallback(async (query) => getWithAuthorization('/api/list', { params: query }), [getWithAuthorization]);
+  const produceGetURL = useCallback((file) => {
+    const url = new URL('/api/get', window.location.origin);
+    url.searchParams.append('file', file);
+    url.searchParams.append('token', token);
+    return url.href;
+  }, [token]);
 
   return useMemo(() => ({
     login,
     logout,
     upload,
     list,
+    produceGetURL,
     // I know that all of these callbacks are dependent on the token, and the token alone
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }), [token]);

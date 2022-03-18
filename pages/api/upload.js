@@ -9,7 +9,7 @@ const upload = produceAuthenticatedClientHandler(async (req, res, client) => {
         if (err) {
           reject(err);
         }
-        client.put(files.filepath, `${process.env.ROOT_DIR}/test/${files.originalFilename}`, (readyErr) => {
+        client.put(files.filepath, `${process.env.ROOT_DIR}/${files.originalFilename}`, (readyErr) => {
           if (readyErr) {
             reject(readyErr);
           }

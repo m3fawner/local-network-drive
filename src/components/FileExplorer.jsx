@@ -10,10 +10,14 @@ const TYPE_MAP = {
   DIRECTORY: 'd',
   FILE: '-',
 };
-const File = ({ type, name, selectDirectory }) => {
+const File = ({
+  type, name, selectDirectory, directory,
+}) => {
   const isDirectory = type === TYPE_MAP.DIRECTORY;
+  const isFile = type === TYPE_MAP.FILE;
+  const { produceGetURL } = useFTP();
   return (
-    <Flex direction="column" justify="center" align="center" p={8} onClick={isDirectory ? () => selectDirectory(name) : () => {}}>
+    <Flex as={isFile ? 'a' : 'div'} href={isFile ? produceGetURL(`${directory}/${name}`) : null} target="_blank" direction="column" justify="center" align="center" p={8} onClick={isDirectory ? () => selectDirectory(name) : () => {}}>
       <Image src={isDirectory ? '/folder.svg' : '/file.svg'} height="60" width="60" />
       <Text>{name}</Text>
     </Flex>
@@ -23,6 +27,7 @@ File.propTypes = {
   type: PropTypes.oneOf(Object.values(TYPE_MAP)).isRequired,
   name: PropTypes.string.isRequired,
   selectDirectory: PropTypes.func.isRequired,
+  directory: PropTypes.string.isRequired,
 };
 const FileExplorer = () => {
   const [directory, setDirectory] = useState('');
@@ -53,7 +58,7 @@ const FileExplorer = () => {
         </Breadcrumb>
       )}
       <Flex wrap="wrap">
-        {files.map((file) => (<File key={file.name} {...file} selectDirectory={(dir) => setDirectory(`${directory}/${dir}`)} />))}
+        {files.map((file) => (<File key={file.name} {...file} directory={directory} selectDirectory={(dir) => setDirectory(`${directory}/${dir}`)} />))}
       </Flex>
 
     </Flex>
