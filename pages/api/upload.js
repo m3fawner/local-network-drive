@@ -1,7 +1,7 @@
 import formidable from 'formidable';
-import instance from '../../src/node/ftp';
+import { produceAuthenticatedClientHandler } from '../../src/node/api';
 
-const upload = async (req, res) => {
+const upload = produceAuthenticatedClientHandler(async (req, res, client) => {
   try {
     await new Promise((resolve, reject) => {
       const form = formidable({});
@@ -9,18 +9,11 @@ const upload = async (req, res) => {
         if (err) {
           reject(err);
         }
-        instance.connect({
-          user: process.env.USERNAME,
-          password: process.env.PASSWORD,
-          host: process.env.HOSTNAME,
-        });
-        instance.on('ready', () => {
-          instance.put(files.filepath, `${process.env.ROOT_DIR}/test/${files.originalFilename}`, (readyErr) => {
-            if (readyErr) {
-              reject(readyErr);
-            }
-            resolve();
-          });
+        client.put(files.filepath, `${process.env.ROOT_DIR}/test/${files.originalFilename}`, (readyErr) => {
+          if (readyErr) {
+            reject(readyErr);
+          }
+          resolve();
         });
       });
     });
@@ -28,10 +21,8 @@ const upload = async (req, res) => {
   } catch (e) {
     console.error(e);
     res.status(500).json(e);
-  } finally {
-    instance.end();
   }
-};
+});
 
 export const config = {
   api: {

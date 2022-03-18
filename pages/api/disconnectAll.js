@@ -1,17 +1,13 @@
 import { disconnectAll as ftpDisconnectAll, produceErrorResponseFromError } from '../../src/node/ftp';
-import { getTokenFromHeader } from '../../src/node/jwt-util';
+import { produceAuthenticatedHandler } from '../../src/node/api';
 
-const disconnectAll = async (req, res) => {
-  if (getTokenFromHeader(req) === null) {
-    res.status(401).json({});
-    return;
-  }
+const disconnectAll = produceAuthenticatedHandler(async (req, res) => {
   try {
     await ftpDisconnectAll();
     res.status(200).json({});
   } catch (e) {
     res.status(500).json(produceErrorResponseFromError(e));
   }
-};
+});
 
 export default disconnectAll;

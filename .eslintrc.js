@@ -33,6 +33,8 @@ module.exports = {
     },
     rules: {
       'no-console': ['error', { allow: ['warn', 'error'] }],
+      'react/function-component-definition': 'off',
+      'react/destructuring-assignment': 'off',
     },
   }],
 };

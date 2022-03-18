@@ -1,13 +1,13 @@
 import Client from 'ftp';
 
 const connectedClients = new Map();
-const getClient = (guid) => connectedClients.get(guid) ?? null;
+export const getClient = (guid) => connectedClients.get(guid) ?? null;
 export const login = async (guid, user, password) => {
   const client = new Client();
   client.connect({
     user,
     password,
-    host: process.env.HOSTNAME,
+    host: process.env.FTP_HOSTNAME,
   });
   return new Promise((resolve, reject) => {
     client.on('ready', (err) => {

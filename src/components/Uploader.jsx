@@ -1,20 +1,35 @@
-import axios from 'axios';
 import { createRef } from 'react';
-import { Button, Container } from '@chakra-ui/react';
+import { Button, Container, useToast } from '@chakra-ui/react';
+import useFTP from '../hooks/useFTP';
 import FileSelect from './FileSelect';
 
 const Uploader = (props) => {
   const formRef = createRef();
+  const { upload } = useFTP();
+  const toast = useToast();
   const onSubmit = async (evt) => {
     evt.preventDefault();
-    const config = {
-      headers: { 'content-type': 'multipart/form-data' },
-      onUploadProgress: (progressEvt) => {
+    try {
+      await upload(new FormData(formRef.current), {
+        headers: { 'content-type': 'multipart/form-data' },
+        onUploadProgress: (progressEvt) => {
         // eslint-disable-next-line no-console
-        console.log('Current progress:', Math.round((progressEvt.loaded * 100) / progressEvt.total));
-      },
-    };
-    await axios.post('/api/upload', new FormData(formRef.current), config);
+          console.log('Current progress:', Math.round((progressEvt.loaded * 100) / progressEvt.total));
+        },
+      });
+      toast({
+        title: 'Upload successful',
+        status: 'success',
+        duration: 3000,
+      });
+    } catch (e) {
+      toast({
+        title: 'Upload failed',
+        description: e.message,
+        duration: 3000,
+        status: 'error',
+      });
+    }
   };
   return (
     <Container {...props} as="form" ref={formRef} onSubmit={onSubmit}>
